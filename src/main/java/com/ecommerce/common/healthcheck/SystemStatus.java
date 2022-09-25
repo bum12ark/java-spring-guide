@@ -1,4 +1,3 @@
 package com.ecommerce.common.healthcheck;
 
-public record SystemStatus(String version) {
-}
+public record SystemStatus(String version) {}
