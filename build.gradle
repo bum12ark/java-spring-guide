@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.7.4'
     id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+    id 'com.diffplug.spotless' version '6.11.0'
     id 'java'
 }
 
@@ -10,6 +11,21 @@ sourceCompatibility = '17'
 
 springBoot {
     buildInfo()
+}
+
+spotless {
+    java {
+        importOrder()
+
+        removeUnusedImports()
+
+        googleJavaFormat()
+
+        indentWithTabs(2)
+        indentWithSpaces(4)
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
 }
 
 configurations {
