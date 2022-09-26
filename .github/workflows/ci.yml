@@ -1,0 +1,20 @@
+on:
+  push:
+  pull_request:
+
+jobs:
+  ci:
+    name: Test Java Project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the codes
+        uses: actions/checkout@v2
+      - name: Setup Java environment
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+      - name: Test All
+        run: |
+          ./gradlew clean build -i
