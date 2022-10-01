@@ -1,8 +1,8 @@
 package com.guide.domain.account.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.guide.domain.account.entity.Account;
 import com.guide.domain.model.User;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record AccountResponse(
         @JsonProperty("id") Long id,

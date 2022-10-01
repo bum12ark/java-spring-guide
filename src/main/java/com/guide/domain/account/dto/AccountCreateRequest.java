@@ -8,7 +8,7 @@ public record AccountCreateRequest(
         @NotNull Long userId, @NotNull String email, @NotNull String name) {
 
     public Account toEntity() {
-        User user = new User(userId, email);
+        User user = User.builder().id(userId).email(email).build();
         return Account.of(name, user);
     }
 }
