@@ -1,3 +1,3 @@
-package com.ecommerce.common.healthcheck;
+package com.guide.common.healthcheck;
 
 public record SystemStatus(String version) {}

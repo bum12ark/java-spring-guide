@@ -1,1 +1,1 @@
-rootProject.name = "java-jpa-template"
+rootProject.name = "java-spring-guide"

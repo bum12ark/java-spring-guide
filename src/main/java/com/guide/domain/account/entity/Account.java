@@ -1,11 +1,10 @@
-package com.ecommerce.domain.account.entity;
+package com.guide.domain.account.entity;
 
-import com.ecommerce.domain.model.User;
-import lombok.Getter;
-
+import com.guide.domain.model.User;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import lombok.Getter;
 
 @Entity
 @Getter

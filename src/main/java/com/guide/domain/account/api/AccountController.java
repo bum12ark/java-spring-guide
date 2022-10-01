@@ -1,16 +1,15 @@
-package com.ecommerce.domain.account.api;
+package com.guide.domain.account.api;
 
-import com.ecommerce.domain.account.application.AccountCreateService;
-import com.ecommerce.domain.account.dto.AccountCreateRequest;
-import com.ecommerce.domain.account.dto.AccountResponse;
-import com.ecommerce.domain.account.entity.Account;
+import com.guide.domain.account.application.AccountCreateService;
+import com.guide.domain.account.dto.AccountCreateRequest;
+import com.guide.domain.account.dto.AccountResponse;
+import com.guide.domain.account.entity.Account;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/account")

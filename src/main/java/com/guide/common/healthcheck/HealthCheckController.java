@@ -1,4 +1,4 @@
-package com.ecommerce.common.healthcheck;
+package com.guide.common.healthcheck;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.info.BuildProperties;
