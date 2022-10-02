@@ -6,7 +6,7 @@ plugins {
     id("java")
 }
 
-group = "com"
+group = "com.guide"
 version = "0.0.0"
 
 java {
