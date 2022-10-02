@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.guide.domain.account.dto.AccountCreateRequest;
 import com.guide.test.IntegrationTest;
+import com.guide.test.setup.request.AccountCreateRequestSetup;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ class AccountControllerTest extends IntegrationTest {
         public void 계좌_생성_성공() throws Exception {
             // GIVEN
             AccountCreateRequest accountCreateRequest =
-                    new AccountCreateRequest(TEST_USER_ID, TEST_EMAIL, TEST_NAME);
+                    AccountCreateRequestSetup.build(TEST_USER_ID, TEST_EMAIL, TEST_NAME);
 
             // WHEN
             ResultActions resultActions = requestCreateAccount(accountCreateRequest);
@@ -61,9 +62,9 @@ class AccountControllerTest extends IntegrationTest {
 
         private static Stream<Arguments> createInvalidAccountCreateRequest() {
             return Stream.of(
-                    Arguments.arguments(new AccountCreateRequest(null, TEST_EMAIL, TEST_NAME)),
-                    Arguments.arguments(new AccountCreateRequest(TEST_USER_ID, null, TEST_NAME)),
-                    Arguments.arguments(new AccountCreateRequest(TEST_USER_ID, TEST_EMAIL, null)));
+                    Arguments.arguments(AccountCreateRequestSetup.build(null, TEST_EMAIL, TEST_NAME)),
+                    Arguments.arguments(AccountCreateRequestSetup.build(TEST_USER_ID, null, TEST_NAME)),
+                    Arguments.arguments(AccountCreateRequestSetup.build(TEST_USER_ID, TEST_EMAIL, null)));
         }
     }
 
