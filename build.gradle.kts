@@ -6,7 +6,7 @@ plugins {
     id("java")
 }
 
-group = "com"
+group = "com.guide"
 version = "0.0.0"
 
 java {
@@ -19,7 +19,18 @@ springBoot {
 
 spotless {
     java {
-        importOrder()
+        importOrder(
+                "java",
+                "javax",
+                "lombok",
+                "org.springframework",
+                "",
+                "\\#",
+                "org.junit",
+                "\\#org.junit",
+                "com.ecommerce",
+                "\\#com.ecommerce"
+        )
 
         removeUnusedImports()
 
@@ -74,7 +85,7 @@ tasks.jacocoTestCoverageVerification {
                 minimum = "0.90".toBigDecimal()
             }
             excludes = listOf(
-                    "com.ecommerce.Application"
+                    "com.guide.Application"
             )
         }
     }
