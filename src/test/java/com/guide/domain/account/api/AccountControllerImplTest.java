@@ -17,7 +17,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
-class AccountControllerTest extends IntegrationTest {
+class AccountControllerImplTest extends IntegrationTest {
 
     private static final Long TEST_USER_ID = 1L;
     private static final String TEST_EMAIL = "mike@gmail.com";
