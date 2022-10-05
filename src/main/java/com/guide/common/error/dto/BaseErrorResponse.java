@@ -1,14 +1,20 @@
 package com.guide.common.error.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.guide.common.error.ErrorCode;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BaseErrorResponse {
+    private long errorCode;
+    private String errorMessage;
 
-    @JsonIgnore private final int status;
-    private final long errorCode;
-    private final String errorMessage;
+    public static BaseErrorResponse of(ErrorCode errorCode) {
+        BaseErrorResponse errorResponse = new BaseErrorResponse();
+        errorResponse.errorCode = errorCode.getCode();
+        errorResponse.errorMessage = errorCode.getMessage();
+        return errorResponse;
+    }
 }

@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Profile("test")
 public class ErrorGenerationController {
 
-    @PostMapping("/error")
+    @PostMapping("/errors")
     public ResponseEntity generateMethodArgumentNotValidException(
             @RequestBody @Valid MethodArgumentNotValidExceptionRequest request) {
-        return ResponseEntity.noContent().build();
+        throw new RuntimeException("Unknown Error");
     }
 
     public record MethodArgumentNotValidExceptionRequest(@NotBlank String message) {}
