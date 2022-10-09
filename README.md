@@ -4,6 +4,8 @@
 ## 목차
 1. [코드 포맷팅 가이드 (Spotless)](https://github.com/bum12ark/java-spring-guide/blob/cf9409870cec9d8b2b03921d6a8aa99c74d74fad/docs/markdown/spotless.md)
 2. [코드 커버리지 가이드 (Jacoco)](https://github.com/bum12ark/java-spring-guide/blob/d9577eed1e553c875a3103d7033c1f3b9c35bb44/docs/markdown/code-coverage-jacoco.md)
+3. [CI 가이드 (GitHub Actions)](https://github.com/bum12ark/java-spring-guide/blob/8a2f62113880e401ee9ceb12636abf692066d54b/docs/markdown/ci-github-actions.md)
+4. [테스트 가이드](https://github.com/bum12ark/java-spring-guide/blob/8a2f62113880e401ee9ceb12636abf692066d54b/docs/markdown/test-guide.md)
 ## 사용되는 기술
 - Java
   - Java 17
