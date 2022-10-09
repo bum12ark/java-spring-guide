@@ -11,6 +11,9 @@ spring:
       ddl-auto: create-drop
     database: h2
 
+logging:
+  config: classpath:logback-${spring.profiles.active}.xml
+
 user:
   feign:
     base-url: https://reqres.in
