@@ -12,20 +12,19 @@ import org.springframework.http.HttpStatus;
 public class UserClientErrorDecoder implements ErrorDecoder {
 
     private static final Set<Integer> RETRY_STATUS =
-            Set.of(
-                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    HttpStatus.TOO_MANY_REQUESTS.value());
+            Set.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.TOO_MANY_REQUESTS.value());
 
     @Override
     public Exception decode(String methodKey, Response response) {
         int status = response.status();
+        String message = response.reason();
         if (isRetryStatus(status)) {
             return new RetryableException(
-                    status, "message", response.request().httpMethod(), null, response.request());
+                    status, message, response.request().httpMethod(), null, response.request());
         }
         return new FeignException.FeignClientException(
                 response.status(),
-                "message",
+                message,
                 response.request(),
                 response.request().body(),
                 response.request().headers());
