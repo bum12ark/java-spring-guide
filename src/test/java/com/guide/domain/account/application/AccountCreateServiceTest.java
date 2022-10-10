@@ -34,8 +34,7 @@ class AccountCreateServiceTest extends MockTest {
         void 계좌_생성_성공() {
             // GIVEN
             AccountCreateRequest accountCreateRequest =
-                    AccountCreateRequestSetup.build(
-                            account.getUser().getId(), account.getUser().getEmail(), account.getName());
+                    AccountCreateRequestSetup.build(account.getUser().getId(), account.getName());
             given(accountRepository.save(any(Account.class))).willReturn(account);
 
             // WHEN
@@ -43,7 +42,7 @@ class AccountCreateServiceTest extends MockTest {
 
             // THEN
             assertEquals(account.getUser().getId(), accountCreateRequest.userId());
-            assertEquals(account.getUser().getEmail(), accountCreateRequest.email());
+            assertNotNull(account.getUser().getEmail());
             assertEquals(account.getBalance(), 0);
             assertEquals(account.getName(), accountCreateRequest.name());
         }

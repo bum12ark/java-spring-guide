@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.ResultActions;
 class AccountControllerTest extends IntegrationTest {
 
     private static final Long TEST_USER_ID = 1L;
-    private static final String TEST_EMAIL = "mike@gmail.com";
     private static final String TEST_NAME = "하나은행";
     private static final String CREATE_ACCOUNT_URL = "/api/account";
 
@@ -31,7 +30,7 @@ class AccountControllerTest extends IntegrationTest {
         public void 계좌_생성_성공() throws Exception {
             // GIVEN
             AccountCreateRequest accountCreateRequest =
-                    AccountCreateRequestSetup.build(TEST_USER_ID, TEST_EMAIL, TEST_NAME);
+                    AccountCreateRequestSetup.build(TEST_USER_ID, TEST_NAME);
 
             // WHEN
             ResultActions resultActions = requestCreateAccount(accountCreateRequest);
@@ -43,7 +42,7 @@ class AccountControllerTest extends IntegrationTest {
                     .andExpect(jsonPath("name").value(TEST_NAME))
                     .andExpect(jsonPath("balance").value(0L))
                     .andExpect(jsonPath("user.id").isNotEmpty())
-                    .andExpect(jsonPath("user.email").value(TEST_EMAIL));
+                    .andExpect(jsonPath("user.email").isNotEmpty());
         }
     }
 
@@ -62,9 +61,8 @@ class AccountControllerTest extends IntegrationTest {
 
         private static Stream<Arguments> createInvalidAccountCreateRequest() {
             return Stream.of(
-                    Arguments.arguments(AccountCreateRequestSetup.build(null, TEST_EMAIL, TEST_NAME)),
-                    Arguments.arguments(AccountCreateRequestSetup.build(TEST_USER_ID, null, TEST_NAME)),
-                    Arguments.arguments(AccountCreateRequestSetup.build(TEST_USER_ID, TEST_EMAIL, null)));
+                    Arguments.arguments(AccountCreateRequestSetup.build(null, TEST_NAME)),
+                    Arguments.arguments(AccountCreateRequestSetup.build(TEST_USER_ID, null)));
         }
     }
 
