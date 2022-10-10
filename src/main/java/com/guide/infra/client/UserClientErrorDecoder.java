@@ -1,5 +1,6 @@
 package com.guide.infra.client;
 
+import com.guide.infra.client.error.UserNotFoundException;
 import feign.FeignException;
 import feign.Response;
 import feign.RetryableException;
@@ -18,6 +19,9 @@ public class UserClientErrorDecoder implements ErrorDecoder {
     public Exception decode(String methodKey, Response response) {
         int status = response.status();
         String message = response.reason();
+        if (status == HttpStatus.NOT_FOUND.value()) {
+            return new UserNotFoundException();
+        }
         if (isRetryStatus(status)) {
             return new RetryableException(
                     status, message, response.request().httpMethod(), null, response.request());
