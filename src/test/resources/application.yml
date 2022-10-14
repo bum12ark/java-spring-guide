@@ -1,0 +1,22 @@
+spring:
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    database: h2
+
+user:
+  feign:
+    base-url: localhost:8443
+    connection-timeout-millis: 200
+    read-timeout-millis: 500
+    retry:
+      period-millis: 1000
+      max-period-millis: 200
+      attempts: 3
