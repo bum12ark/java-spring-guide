@@ -11,13 +11,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 @Service
 public class AccountCreateService {
 
     private final UserClient userClient;
     private final AccountRepository accountRepository;
 
+    @Transactional
     public Account create(final AccountCreateRequest createRequest) {
         UserFindApiResponse userFindApiResponse = userClient.requestUserById(createRequest.userId());
         User user =
