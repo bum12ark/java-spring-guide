@@ -1,16 +1,23 @@
 package com.guide.test.setup.entity;
 
+import com.guide.domain.account.AccountBuilder;
+import com.guide.domain.account.dao.AccountRepository;
 import com.guide.domain.account.entity.Account;
-import com.guide.domain.model.User;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
+@Profile("test")
+@Component
 public class AccountSetup {
 
-    private static final String NAME = "하나";
-    private static final Long USER_ID = 10L;
-    private static final String USER_EMAIL = "mike@gmail.com";
+    private final AccountRepository accountRepository;
 
-    public static Account build() {
-        User user = new User(USER_ID, USER_EMAIL);
-        return Account.of(NAME, user);
+    public AccountSetup(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+
+    public Account save() {
+        Account account = AccountBuilder.build();
+        return accountRepository.save(account);
     }
 }
