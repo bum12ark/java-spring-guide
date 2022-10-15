@@ -27,6 +27,14 @@ public class AccountErrorHandler {
                 .body(BaseErrorResponse.of(ErrorCode.USER_NOT_FOUND));
     }
 
+    @ExceptionHandler(AccountNotFoundException.class)
+    protected ResponseEntity<BaseErrorResponse> handleAccountNotFoundException(
+            AccountNotFoundException exception) {
+        log.warn("AccountNotFoundException occurred.", exception);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(BaseErrorResponse.of(ErrorCode.ACCOUNT_NOT_FOUND.getCode(), exception.getMessage()));
+    }
+
     @ExceptionHandler(RetryableException.class)
     protected ResponseEntity<BaseErrorResponse> handleRetryableException(
             RetryableException exception) {

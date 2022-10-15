@@ -17,4 +17,11 @@ public class BaseErrorResponse {
         errorResponse.errorMessage = errorCode.getMessage();
         return errorResponse;
     }
+
+    public static BaseErrorResponse of(long errorCode, String errorMessage) {
+        BaseErrorResponse errorResponse = new BaseErrorResponse();
+        errorResponse.errorCode = errorCode;
+        errorResponse.errorMessage = errorMessage;
+        return errorResponse;
+    }
 }

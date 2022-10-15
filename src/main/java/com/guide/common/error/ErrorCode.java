@@ -18,6 +18,9 @@ public enum ErrorCode {
     // Feign
     RETRY_MAX_ATTEMPTS(5001L, "Max Retry Fail"),
 
+    // Account
+    ACCOUNT_NOT_FOUND(4101L, "Account not found, accountId : %s"),
+
     // User
     USER_NOT_FOUND(4100L, "User not found during call user-api"),
     USER_CLIENT_UNPROCESSABLE(5002L, "Something wrong during call user-api");
