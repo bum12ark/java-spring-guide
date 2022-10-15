@@ -7,10 +7,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(of = {"id", "email"})
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Embeddable
 public class User {
 
     @NotEmpty
