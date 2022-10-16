@@ -1,17 +1,10 @@
 package com.guide.domain.account.api;
 
-import com.guide.common.error.dto.BaseErrorResponse;
 import com.guide.domain.account.application.AccountCreateService;
 import com.guide.domain.account.application.AccountFindService;
 import com.guide.domain.account.dto.AccountCreateRequest;
 import com.guide.domain.account.dto.AccountResponse;
 import com.guide.domain.account.entity.Account;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,18 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Account", description = "Rest API for Account")
-@ApiResponses(
-        value = {
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Parameter is not valid",
-                    content = @Content(schema = @Schema(implementation = BaseErrorResponse.class))),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Internal server error",
-                    content = @Content(schema = @Schema(implementation = BaseErrorResponse.class)))
-        })
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/account")
@@ -43,12 +24,6 @@ public class AccountController {
     private final AccountCreateService accountCreateService;
     private final AccountFindService accountFindService;
 
-    @Operation(summary = "Create account")
-    @ApiResponse(responseCode = "200", description = "OK")
-    @ApiResponse(
-            responseCode = "502",
-            description = "User api server error",
-            content = @Content(schema = @Schema(implementation = BaseErrorResponse.class)))
     @PostMapping
     public AccountResponse create(@RequestBody @Valid AccountCreateRequest createRequest) {
         log.info("Requested for create Account, AccountCreateRequest : {}", createRequest);
@@ -58,12 +33,6 @@ public class AccountController {
         return accountResponse;
     }
 
-    @Operation(summary = "Find account by account id")
-    @ApiResponse(responseCode = "200", description = "OK")
-    @ApiResponse(
-            responseCode = "404",
-            description = "Account not found",
-            content = @Content(schema = @Schema(implementation = BaseErrorResponse.class)))
     @GetMapping("/{accountId}")
     public AccountResponse findAccount(@PathVariable("accountId") long accountId) {
         log.info("Requested for find Account, accountId : {}", accountId);
