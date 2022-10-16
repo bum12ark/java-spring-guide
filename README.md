@@ -6,6 +6,7 @@
 2. [코드 커버리지 가이드 (Jacoco)](https://github.com/bum12ark/java-spring-guide/blob/d9577eed1e553c875a3103d7033c1f3b9c35bb44/docs/markdown/code-coverage-jacoco.md)
 3. [CI 가이드 (GitHub Actions)](https://github.com/bum12ark/java-spring-guide/blob/8a2f62113880e401ee9ceb12636abf692066d54b/docs/markdown/ci-github-actions.md)
 4. [테스트 가이드](https://github.com/bum12ark/java-spring-guide/blob/8a2f62113880e401ee9ceb12636abf692066d54b/docs/markdown/test-guide.md)
+5. [외부 API 통신 (Feign Client)](https://github.com/bum12ark/java-spring-guide/blob/7239281f91ee19e660eec5b1fa54fa5ba566c9ff/docs/markdown/openfeign.md)
 ## 사용되는 기술
 - Java
   - Java 17
@@ -13,6 +14,7 @@
 - Spring
   - Spring Boot
   - Spring Validation
+  - Spring Cloud Open Feign
 - Database
   - Spring Data JPA
 - Code Format
@@ -21,3 +23,8 @@
   - Jacoco
 - CI
   - GitHub Actions
+- Test
+  - JUnit5
+  - Wiremock
+- Others
+  - Open API
