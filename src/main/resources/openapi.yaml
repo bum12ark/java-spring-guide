@@ -1,0 +1,233 @@
+openapi: 3.0.1
+info:
+  title: Spring Java Guide
+  version: '0.1'
+servers:
+  - url: http://localhost:8080
+    description: local server url
+tags:
+  - name: Account
+    description: Rest API for Account
+  - name: Health Check
+    description: Rest API for Server Health Check
+paths:
+  /api/account:
+    post:
+      tags:
+        - Account
+      summary: Create account
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+        '400':
+          description: Parameter is not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseErrorResponse'
+              examples:
+                BAD_REQUEST:
+                  $ref: '#/components/examples/BAD_REQUEST'
+        404:
+          description: |-
+            Not Found
+            - When User Api not found user information with user id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseErrorResponse'
+              examples:
+                USER_NOT_FOUND:
+                  $ref: '#/components/examples/USER_NOT_FOUND'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseErrorResponse'
+              examples:
+                UNKNOWN:
+                  $ref: '#/components/examples/UNKNOWN'
+        '502':
+          description: User api server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseErrorResponse'
+              examples:
+                RETRY_MAX_ATTEMPTS:
+                  $ref: '#/components/examples/RETRY_MAX_ATTEMPTS'
+                USER_CLIENT_UNPROCESSABLE:
+                  $ref: '#/components/examples/USER_CLIENT_UNPROCESSABLE'
+  /api/account/{accountId}:
+    get:
+      tags:
+        - Account
+      summary: Find account by account id
+      operationId: findAccount
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+        '400':
+          description: Parameter is not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseErrorResponse'
+              examples:
+                BAD_REQUEST:
+                  $ref: '#/components/examples/BAD_REQUEST'
+        '404':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseErrorResponse'
+              examples:
+                ACCOUNT_NOT_FOUND:
+                  $ref: '#/components/examples/ACCOUNT_NOT_FOUND'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseErrorResponse'
+              examples:
+                UNKNOWN:
+                  $ref: '#/components/examples/UNKNOWN'
+  /:
+    get:
+      tags:
+        - Health Check
+      summary: Show server version
+      operationId: getSystemStatus
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemStatus'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseErrorResponse'
+              examples:
+                UNKNOWN:
+                  $ref: '#/components/examples/UNKNOWN'
+components:
+  schemas:
+    AccountCreateRequest:
+      required:
+        - name
+        - userId
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          description: Name of account holder to create
+          example: mike
+    BaseErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: integer
+          format: int64
+        errorMessage:
+          type: string
+    AccountResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: mike
+        balance:
+          type: integer
+          format: int64
+          example: 10000
+        user:
+          $ref: '#/components/schemas/User'
+    User:
+      required:
+        - email
+        - id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: '10'
+        email:
+          type: string
+          example: 'mike@gmail.com'
+    SystemStatus:
+      type: object
+      properties:
+        version:
+          type: string
+          example: "0.1"
+  examples:
+    BAD_REQUEST:
+      value:
+        errorCode: 4001
+        errorMessage: Invalid Input Value
+    METHOD_NOT_ALLOWED:
+      value:
+        errorCode: 4002
+        errorMessage: Request Method Not Supported
+    NOT_HANDLER_FOUND:
+      value:
+        errorCode: 4003
+        errorMessage: Non-Existent Api Request
+    USER_NOT_FOUND:
+      value:
+        errorCode: 4100
+        errorMessage: User not found during call user-api
+    ACCOUNT_NOT_FOUND:
+      value:
+        errorCode: 4101
+        errorMessage: "Account not found, accountId : 1"
+    UNKNOWN:
+      value:
+        errorCode: 9999
+        errorMessage: Unknown Error
+    RETRY_MAX_ATTEMPTS:
+      value:
+        errorCode: 5001
+        errorMessage: Max Retry Fail
+    USER_CLIENT_UNPROCESSABLE:
+      value:
+        errorCode: 5002
+        errorMessage: Something wrong during call user-api

@@ -23,3 +23,10 @@ user:
       period-millis: 1000
       max-period-millis: 2000
       attempts: 3
+
+springdoc:
+  swagger-ui:
+    path: /api-doc
+    url: /docs/openapi.yaml
+  api-docs:
+    enabled: false
