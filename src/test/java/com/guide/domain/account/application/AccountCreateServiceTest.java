@@ -4,13 +4,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
+import com.guide.domain.account.AccountBuilder;
 import com.guide.domain.account.dao.AccountRepository;
 import com.guide.domain.account.dto.AccountCreateRequest;
 import com.guide.domain.account.entity.Account;
 import com.guide.infra.client.UserClient;
 import com.guide.infra.client.error.UserNotFoundException;
 import com.guide.test.MockTest;
-import com.guide.test.setup.entity.AccountSetup;
 import com.guide.test.setup.request.AccountCreateRequestSetup;
 import com.guide.test.setup.response.UserClientSetup;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,7 @@ class AccountCreateServiceTest extends MockTest {
 
     @BeforeEach
     void beforeEach() {
-        account = AccountSetup.build();
+        account = AccountBuilder.build();
     }
 
     @Nested

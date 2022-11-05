@@ -1,5 +1,6 @@
 package com.guide.domain.account.api;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -8,16 +9,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import com.guide.common.error.ErrorCode;
 import com.guide.domain.account.dto.AccountCreateRequest;
+import com.guide.domain.account.entity.Account;
 import com.guide.infra.client.WiremockStubFindUser;
 import com.guide.test.IntegrationTest;
+import com.guide.test.setup.entity.AccountSetup;
 import com.guide.test.setup.request.AccountCreateRequestSetup;
 import com.guide.test.setup.response.UserClientSetup;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -26,10 +31,12 @@ class AccountControllerTest extends IntegrationTest {
     private static final Long TEST_USER_ID = 1L;
     private static final String TEST_NAME = "하나은행";
     private static final String CREATE_ACCOUNT_URL = "/api/account";
+    private static final String FIND_ACCOUNT_URL = "/api/account/%s";
+    @Autowired private AccountSetup accountSetup;
 
     @Nested
     @WireMockTest(httpPort = 8443)
-    class SuccessfulTest {
+    class AccountCreateSuccessfulTest {
 
         @Test
         public void 계좌_생성_성공() throws Exception {
@@ -58,7 +65,7 @@ class AccountControllerTest extends IntegrationTest {
 
     @Nested
     @WireMockTest(httpPort = 8443)
-    class UnsuccessfulTests {
+    class AccountCreateUnsuccessfulTest {
 
         @ParameterizedTest
         @MethodSource(value = "createInvalidAccountCreateRequest")
@@ -132,7 +139,52 @@ class AccountControllerTest extends IntegrationTest {
         }
     }
 
-    private ResultActions requestCreateAccount(AccountCreateRequest accountCreateRequest)
+    @Nested
+    class FindAccountSuccessfulTest {
+
+        @Test
+        @DisplayName("단일 계좌 조회 성공")
+        void should_return_account_response_when_api_called() throws Exception {
+            // GIVEN
+            final Account account = accountSetup.save();
+
+            // WHEN
+            final ResultActions resultActions = requestFindAccount(account.getId());
+
+            // THEN
+            resultActions
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("id").value(account.getId()))
+                    .andExpect(jsonPath("name").value(account.getName()))
+                    .andExpect(jsonPath("balance").value(account.getBalance()))
+                    .andExpect(jsonPath("user.id").value(account.getUser().getId()))
+                    .andExpect(jsonPath("user.email").value(account.getUser().getEmail()));
+        }
+    }
+
+    @Nested
+    class FindAccountUnsuccessfulTest {
+
+        @Test
+        void should_return_404_not_found_when_not_exist_account_id() throws Exception {
+            // GIVEN
+            final long notExistAccountId = 9999L;
+
+            // WHEN
+            final ResultActions resultActions = requestFindAccount(notExistAccountId);
+
+            // THEN
+            resultActions
+                    .andExpect(status().isNotFound())
+                    .andExpect(jsonPath("errorCode").value(ErrorCode.ACCOUNT_NOT_FOUND.getCode()))
+                    .andExpect(
+                            jsonPath("errorMessage")
+                                    .value(
+                                            String.format(ErrorCode.ACCOUNT_NOT_FOUND.getMessage(), notExistAccountId)));
+        }
+    }
+
+    private ResultActions requestCreateAccount(final AccountCreateRequest accountCreateRequest)
             throws Exception {
         return mockMvc
                 .perform(
@@ -140,5 +192,9 @@ class AccountControllerTest extends IntegrationTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(accountCreateRequest)))
                 .andDo(print());
+    }
+
+    private ResultActions requestFindAccount(final long accountId) throws Exception {
+        return mockMvc.perform(get(String.format(FIND_ACCOUNT_URL, accountId))).andDo(print());
     }
 }

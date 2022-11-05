@@ -1,8 +1,8 @@
 package com.guide.common.config;
 
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
+import org.springdoc.core.SpringDocConfigProperties;
+import org.springdoc.core.SpringDocConfiguration;
+import org.springdoc.core.providers.ObjectMapperProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,8 +10,17 @@ import org.springframework.context.annotation.Configuration;
 public class OpenApiConfig {
 
     @Bean
-    public OpenAPI openAPI() {
-        Info info = new Info().title("Spring Java Guide").version("0.1");
-        return new OpenAPI().components(new Components()).info(info);
+    SpringDocConfiguration springDocConfiguration() {
+        return new SpringDocConfiguration();
+    }
+
+    @Bean
+    SpringDocConfigProperties springDocConfigProperties() {
+        return new SpringDocConfigProperties();
+    }
+
+    @Bean
+    ObjectMapperProvider objectMapperProvider(SpringDocConfigProperties springDocConfigProperties) {
+        return new ObjectMapperProvider(springDocConfigProperties);
     }
 }
